@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vendas de Brinquedos HenriBrinquedos</title>
+  <meta name="description" content="Site feito para vendas de brinquedos.">
+  <meta name="keywords" content="Brinquedos, Loja de brinquedos, Presentes infantis">
+  <meta name="author" content="Leandro">
+
+  <!-- Estilos -->
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #FFFFFF;
+      color: #fff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    header {
+      background-color: #000;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo img {
+      height: 40px;
+    }
+
+    nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 1.5rem;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      color: #FF007F;
+    }
+
+    .whatsapp-button {
+      display: inline-block;
+      margin: 10px auto;
+      padding: 14px 24px;
+       background-color: #ff69b4;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: background-color 0.3s;
+      width: 100%;
+      max-width: 300px;
+      text-align: center;
+    }
+
+   .whatsapp-button:hover {
+  background-color: #ff1493;
+    }
+
+    .map-container {
+      margin-top: 30px;
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    .map-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      color: #aaa;
+      text-align: center;
+      padding-bottom: 20px;
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+      nav {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        background-color: #000;
+        padding: 10px;
+      }
+
+      nav.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+    }
+	.produto {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 15px;
+}
+.produto img {
+  max-width: 250px;
+  height: auto;
+  display: block;
+  margin: 10px auto;
+}
+  </style>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7YCJTP318E"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-7YCJTP318E');
+  </script>
+</head>
+
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo Brinquedos.jpg" alt="Logotipo da loja de brinquedos">
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <nav id="nav-menu">
+      <a href="index.html">Produtos</a>
+      <a href="sobre.html">Sobre</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>Bem-vindo à nossa loja de brinquedos EnzoBrinquedos!</h1>
+    <a class="whatsapp-button" href="https://wa.me/SEUNUMEROAQUI" target="_blank">
+      Fale conosco no WhatsApp
+    </a>
+	<div class="produto">
+	<img src="LoveBorn.jpg" alt="Born">
+	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
+  Comprar Boneco Meu Tom(gato) - R$ 49,90
+</a>
+</div>
+<div class="produto">
+	<img src="Luisa.jpg" alt="Luisa">
+	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
+  Comprar Boneco Meu Tom(gato) - R$ 49,90
+</a>
+</div>
+<div class="produto">
+	<img src="Lovebabybebe.jpg" alt="Bebe">
+	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
+  Comprar Boneco Meu Tom(gato) - R$ 49,90
+</a>
+</div>
+<div class="produto">
+	<img src="Stylehair.jpg" alt="Style">
+	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
+  Comprar Boneco Meu Tom(gato) - R$ 49,90
+</a>
+</div>
+<div class="produto">
+	<img src="Lovebabybebe2.jpg" alt="Bebe2">
+	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
+  Comprar Boneco Meu Tom(gato) - R$ 49,90
+</a>
+</div>
+</a>
+<div class="produto">
+	<img src="Charmosa.jpg" alt="Charmosa.jpg">
+	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
+  Comprar Boneco Meu Tom(gato) - R$ 49,90
+</a>
+</div>
+<div class="produto">
+	<img src="Frutinhas.jpg" alt="Frutinhas.jpg">
+	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
+  Comprar Boneco Meu Tom(gato) - R$ 49,90
+</a>
+</div>
+<div class="produto">
+	<img src="Passion.jpg" alt="Passion.jpg">
+	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
+  Comprar Boneco Meu Tom(gato) - R$ 49,90
+</a>
+</div>
+<div class="produto">
+	<img src="SonhoAzul.jpg" alt="SonhoAzul.jpg">
+	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
+  Comprar Boneco Meu Tom(gato) - R$ 49,90
+</a>
+</div>
+<div class="produto">
+	<img src="PetLove.jpg" alt="PetLove.jpg">
+	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
+  Comprar Boneco Meu Tom(gato) - R$ 49,90
+</a>
+</div>
+</a>
+  </div>
+
+  <footer>
+    &copy; 2025 Loja de Brinquedos. Todos os direitos reservados.
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("nav-menu");
+      menu.classList.toggle("active");
+    }
+  </script>
+</body>
+</html>
