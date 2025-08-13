@@ -1,246 +1,500 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vendas de Brinquedos HenriBrinquedos</title>
-  <meta name="description" content="Site feito para vendas de brinquedos.">
-  <meta name="keywords" content="Brinquedos, Loja de brinquedos, Presentes infantis">
-  <meta name="author" content="Leandro">
-
-  <!-- Estilos -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EnzoBrinquedos | Loja de Brinquedos</title>
+  <meta name="description" content="Loja de brinquedos com entrega rápida. Pelúcias, carrinhos, educativos e muito mais. Compre pelo WhatsApp ou link de pagamento." />
+  <meta property="og:title" content="EnzoBrinquedos" />
+  <meta property="og:description" content="Brinquedos para todas as idades. Pague com segurança e receba rápido!" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://via.placeholder.com/1200x630?text=EnzoBrinquedos" />
+  <meta name="theme-color" content="#2563eb" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      box-sizing: border-box;
+    :root{
+      --primary:#2563eb; /* azul */
+      --primary-600:#1d4ed8;
+      --accent:#fbbf24;  /* amarelo */
+      --bg:#f8fafc;
+      --text:#0f172a;
+      --muted:#475569;
+      --card:#ffffff;
+      --radius:18px;
+      --shadow:0 10px 20px rgba(2,6,23,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:var(--text);background:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    .container{width:min(1200px,100%);margin-inline:auto;padding:0 16px}
+
+    /* Header */
+    header{
+      position:sticky;top:0;z-index:1000;background:var(--card);box-shadow:var(--shadow)
+    }
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .brand .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--primary),#38bdf8);display:grid;place-items:center;color:white;font-weight:800}
+    .nav-links{display:flex;gap:18px;align-items:center}
+    .nav-links a{padding:8px 12px;border-radius:999px}
+    .nav-links a:hover{background:#eef2ff}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:999px;border:none;cursor:pointer;font-weight:600}
+    .btn-primary{background:var(--primary);color:white}
+    .btn-primary:hover{background:var(--primary-600)}
+    .btn-light{background:#e2e8f0}
+    .hamburger{display:none;border:none;background:transparent;font-size:0}
+    .hamburger span{display:block;width:26px;height:3px;background:var(--text);margin:5px 0;border-radius:2px}
+
+    @media (max-width: 820px){
+      .nav-links{position:fixed;inset:64px 16px auto 16px;background:var(--card);box-shadow:var(--shadow);border-radius:16px;padding:14px;display:none;flex-direction:column;gap:6px}
+      .nav-links.open{display:flex}
+      .hamburger{display:block}
+      .nav .cta{display:none}
     }
 
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #FFFFFF;
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Hero */
+    .hero{background:linear-gradient(180deg, #ffffff, #f1f5f9)}
+    .hero-inner{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;padding:36px 0}
+    .hero h1{font-size:clamp(28px,5vw,40px);line-height:1.15;margin:0 0 10px}
+    .hero p{color:var(--muted);margin:0 0 16px}
+    .badges{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0 18px}
+    .badge{background:#e0e7ff;color:#3730a3;border-radius:999px;padding:6px 12px;font-weight:600;font-size:13px}
+    .hero-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .hero-img{aspect-ratio:1/1;border-radius:var(--radius);overflow:hidden}
+
+    @media (max-width: 860px){
+      .hero-inner{grid-template-columns:1fr}
     }
 
-    header {
-      background-color: #000;
-      padding: 10px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* Filters */
+    .filters{position:sticky;top:72px;background:var(--bg);padding:10px 0;z-index:500;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb}
+    .filters .row{display:flex;gap:12px;flex-wrap:wrap}
+    .input, select{padding:10px 12px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;min-width:140px}
+    .input[type="number"]{width:120px}
+    .spacer{flex:1}
+
+    /* Grid */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:16px;padding:20px 0}
+    .card{grid-column:span 3;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+    .card .cover{aspect-ratio:1/1;background:#e2e8f0}
+    .card .body{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+    .price{font-weight:700}
+    .muted{color:var(--muted);font-size:14px}
+    .tag{font-size:12px;background:#fef3c7;color:#92400e;border-radius:999px;padding:4px 8px;margin-left:8px}
+    .row-between{display:flex;justify-content:space-between;align-items:center;gap:10px}
+    .qty{display:flex;align-items:center;gap:8px}
+    .qty button{width:28px;height:28px;border-radius:8px;border:1px solid #e2e8f0;background:#fff;cursor:pointer}
+
+    @media (max-width: 1020px){
+      .card{grid-column:span 4}
+    }
+    @media (max-width: 720px){
+      .card{grid-column:span 6}
+    }
+    @media (max-width: 520px){
+      .card{grid-column:span 12}
     }
 
-    .logo img {
-      height: 40px;
-    }
+    /* Sections */
+    section{padding:28px 0}
+    h2{font-size:clamp(22px,3.6vw,28px);margin:0 0 12px}
+    .lead{color:var(--muted);margin:0 0 18px}
+    .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .info-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}
+    @media (max-width: 820px){.cards{grid-template-columns:1fr}}
 
-    nav {
-      display: flex;
-      gap: 15px;
-    }
+    /* Footer */
+    footer{background:#0f172a;color:#e2e8f0;padding:24px 0;margin-top:20px}
+    footer a{color:#c7d2fe}
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-size: 1rem;
-    }
+    /* Floating WhatsApp */
+    .whatsapp-float{position:fixed;right:18px;bottom:18px;background:#25d366;border-radius:999px;box-shadow:var(--shadow)}
+    .whatsapp-float a{display:flex;align-items:center;gap:10px;color:#fff;padding:12px 16px;font-weight:700}
 
-    .menu-toggle {
-      display: none;
-      font-size: 1.5rem;
-      color: #fff;
-      cursor: pointer;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: auto;
-      padding: 20px;
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 2rem;
-      color: #FF007F;
-    }
-
-    .whatsapp-button {
-      display: inline-block;
-      margin: 10px auto;
-      padding: 14px 24px;
-       background-color: #ff69b4;
-      color: white;
-      text-decoration: none;
-      border-radius: 6px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      transition: background-color 0.3s;
-      width: 100%;
-      max-width: 300px;
-      text-align: center;
-    }
-
-   .whatsapp-button:hover {
-  background-color: #ff1493;
-    }
-
-    .map-container {
-      margin-top: 30px;
-      position: relative;
-      padding-bottom: 56.25%;
-      height: 0;
-      overflow: hidden;
-      border-radius: 10px;
-    }
-
-    .map-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-
-    footer {
-      margin-top: 40px;
-      font-size: 0.9rem;
-      color: #aaa;
-      text-align: center;
-      padding-bottom: 20px;
-    }
-
-    /* Responsivo */
-    @media (max-width: 768px) {
-      nav {
-        display: none;
-        flex-direction: column;
-        gap: 10px;
-        background-color: #000;
-        padding: 10px;
-      }
-
-      nav.active {
-        display: flex;
-      }
-
-      .menu-toggle {
-        display: block;
-      }
-    }
-	.produto {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 15px;
-}
-.produto img {
-  max-width: 250px;
-  height: auto;
-  display: block;
-  margin: 10px auto;
-}
+    /* Cart */
+    .cart-btn{position:relative}
+    .cart-count{position:absolute;top:-6px;right:-6px;background:var(--accent);border-radius:999px;padding:2px 7px;font-size:12px;font-weight:800}
+    .modal{position:fixed;inset:0;background:rgba(15,23,42,.5);display:none;align-items:center;justify-content:center;padding:16px;z-index:2000}
+    .modal.open{display:flex}
+    .modal .sheet{background:#fff;border-radius:16px;box-shadow:var(--shadow);max-width:720px;width:100%;padding:16px}
+    .cart-list{max-height:320px;overflow:auto;border:1px solid #e5e7eb;border-radius:12px}
+    .cart-item{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;padding:10px;border-bottom:1px solid #f1f5f9}
+    .cart-item:last-child{border-bottom:none}
+    .cart-total{display:flex;justify-content:space-between;align-items:center;margin-top:12px}
   </style>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7YCJTP318E"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-7YCJTP318E');
-  </script>
 </head>
-
 <body>
   <header>
-    <div class="logo">
-      <img src="logo Brinquedos.jpg" alt="Logotipo da loja de brinquedos">
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo">EZ</div>
+        <div>
+          <div>EnzoBrinquedos</div>
+          <small class="muted">Brincar é aprender</small>
+        </div>
+      </div>
+      <button class="hamburger" aria-label="Menu" id="menuBtn"><span></span><span></span><span></span></button>
+      <nav class="nav-links" id="navLinks">
+        <a href="#produtos">Produtos</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#politicas">Políticas</a>
+        <a href="#contato">Contato</a>
+      </nav>
+      <div class="cta">
+        <button class="btn btn-light cart-btn" id="openCart">🧺 Carrinho <span class="cart-count" id="cartCount">0</span></button>
+        <a class="btn btn-primary" id="topWhatsApp" target="_blank" rel="noopener">💬 WhatsApp</a>
+      </div>
     </div>
-    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-    <nav id="nav-menu">
-      <a href="index.html">Produtos</a>
-      <a href="sobre.html">Sobre</a>
-    </nav>
   </header>
 
-  <div class="container">
-    <h1>Bem-vindo à nossa loja de brinquedos EnzoBrinquedos!</h1>
-    <a class="whatsapp-button" href="https://wa.me/SEUNUMEROAQUI" target="_blank">
-      Fale conosco no WhatsApp
-    </a>
-	<div class="produto">
-	<img src="LoveBorn.jpg" alt="Born">
-	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
-  Comprar Boneco Meu Tom(gato) - R$ 49,90
-</a>
-</div>
-<div class="produto">
-	<img src="Luisa.jpg" alt="Luisa">
-	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
-  Comprar Boneco Meu Tom(gato) - R$ 49,90
-</a>
-</div>
-<div class="produto">
-	<img src="Lovebabybebe.jpg" alt="Bebe">
-	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
-  Comprar Boneco Meu Tom(gato) - R$ 49,90
-</a>
-</div>
-<div class="produto">
-	<img src="Stylehair.jpg" alt="Style">
-	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
-  Comprar Boneco Meu Tom(gato) - R$ 49,90
-</a>
-</div>
-<div class="produto">
-	<img src="Lovebabybebe2.jpg" alt="Bebe2">
-	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
-  Comprar Boneco Meu Tom(gato) - R$ 49,90
-</a>
-</div>
-</a>
-<div class="produto">
-	<img src="Charmosa.jpg" alt="Charmosa.jpg">
-	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
-  Comprar Boneco Meu Tom(gato) - R$ 49,90
-</a>
-</div>
-<div class="produto">
-	<img src="Frutinhas.jpg" alt="Frutinhas.jpg">
-	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
-  Comprar Boneco Meu Tom(gato) - R$ 49,90
-</a>
-</div>
-<div class="produto">
-	<img src="Passion.jpg" alt="Passion.jpg">
-	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
-  Comprar Boneco Meu Tom(gato) - R$ 49,90
-</a>
-</div>
-<div class="produto">
-	<img src="SonhoAzul.jpg" alt="SonhoAzul.jpg">
-	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
-  Comprar Boneco Meu Tom(gato) - R$ 49,90
-</a>
-</div>
-<div class="produto">
-	<img src="PetLove.jpg" alt="PetLove.jpg">
-	<a class="whatsapp-button" href="https://mpago.la/EX12" target="_blank">
-  Comprar Boneco Meu Tom(gato) - R$ 49,90
-</a>
-</div>
-</a>
-  </div>
+  <main>
+    <section class="hero">
+      <div class="container hero-inner">
+        <div>
+          <div class="badges">
+            <span class="badge">Entrega rápida</span>
+            <span class="badge">Pagamento seguro</span>
+            <span class="badge">Produtos selecionados</span>
+          </div>
+          <h1>Bem-vindo(a) à EnzoBrinquedos 🎉</h1>
+          <p class="lead">Brinquedos que encantam e educam. Compre com praticidade e receba no conforto de casa.</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap">
+            <a href="#produtos" class="btn btn-primary">Ver produtos</a>
+            <a href="#sobre" class="btn btn-light">Conheça a loja</a>
+          </div>
+        </div>
+        <div class="hero-card">
+          <div class="hero-img">
+            <img src="https://via.placeholder.com/900x900?text=EnzoBrinquedos" alt="Brinquedos coloridos"/>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="produtos" class="container">
+      <h2>Nossos produtos</h2>
+      <p class="lead">Use os filtros abaixo para encontrar o presente perfeito.</p>
+
+      <div class="filters">
+        <div class="container row">
+          <input class="input" id="search" type="search" placeholder="Buscar por nome..." />
+          <select id="category">
+            <option value="">Todas categorias</option>
+            <option value="Pelúcia">Pelúcia</option>
+            <option value="Carrinhos">Carrinhos</option>
+            <option value="Educativo">Educativo</option>
+            <option value="Bonecas">Bonecas</option>
+          </select>
+          <select id="age">
+            <option value="">Todas idades</option>
+            <option value="0-2">0–2 anos</option>
+            <option value="3-5">3–5 anos</option>
+            <option value="6-8">6–8 anos</option>
+            <option value="9+">9+ anos</option>
+          </select>
+          <input class="input" id="minPrice" type="number" min="0" step="1" placeholder="Preço mín." />
+          <input class="input" id="maxPrice" type="number" min="0" step="1" placeholder="Preço máx." />
+          <span class="spacer"></span>
+          <button class="btn btn-light" id="clearFilters">Limpar filtros</button>
+        </div>
+      </div>
+
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <section id="sobre" class="container">
+      <h2>Sobre nós</h2>
+      <p class="lead">Somos apaixonados por proporcionar momentos de alegria e aprendizado. Atendemos com carinho, enviamos rápido e oferecemos um atendimento próximo pelo WhatsApp.</p>
+      <div class="cards">
+        <div class="info-card"><strong>Missão:</strong> levar brinquedos de qualidade a preços justos.</div>
+        <div class="info-card"><strong>Entrega:</strong> retirada local e envio para todo o Brasil.</div>
+        <div class="info-card"><strong>Atendimento:</strong> segunda a sábado, 9h às 18h.</div>
+      </div>
+    </section>
+
+    <section id="politicas" class="container">
+      <h2>Políticas</h2>
+      <div class="cards">
+        <div class="info-card">
+          <h3>Envio e prazos</h3>
+          <p class="muted">Postamos em até 24–48h úteis após a confirmação do pagamento. Prazo de entrega varia conforme a região.</p>
+        </div>
+        <div class="info-card">
+          <h3>Trocas e devoluções</h3>
+          <p class="muted">Você tem 7 dias corridos após o recebimento para desistir da compra (art. 49 do CDC). O produto deve estar sem sinais de uso e com embalagem original.</p>
+        </div>
+        <div class="info-card">
+          <h3>Garantia</h3>
+          <p class="muted">Garantia contra defeitos de fabricação por 90 dias. Fale conosco para agilizar o suporte.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contato" class="container">
+      <h2>Contato</h2>
+      <p class="lead">Tem alguma dúvida? Fale conosco 👇</p>
+      <form id="contactForm" class="info-card" style="max-width:720px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <input class="input" required name="nome" placeholder="Seu nome" />
+          <input class="input" required name="telefone" placeholder="Telefone/WhatsApp" />
+        </div>
+        <textarea class="input" name="mensagem" rows="4" placeholder="Como podemos ajudar?" style="width:100%;margin-top:12px"></textarea>
+        <div style="display:flex;gap:10px;margin-top:10px">
+          <button class="btn btn-primary" type="submit">Enviar pelo WhatsApp</button>
+          <button class="btn btn-light" type="reset">Limpar</button>
+        </div>
+        <small class="muted">Ao enviar, abriremos o WhatsApp com sua mensagem preenchida.</small>
+      </form>
+    </section>
+  </main>
 
   <footer>
-    &copy; 2025 Loja de Brinquedos. Todos os direitos reservados.
+    <div class="container" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
+      <div>
+        <strong>EnzoBrinquedos</strong><br>
+        <small>© <span id="year"></span> — Todos os direitos reservados.</small>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <a href="#produtos">Produtos</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#politicas">Políticas</a>
+        <a href="#contato">Contato</a>
+      </div>
+    </div>
   </footer>
 
+  <div class="whatsapp-float">
+    <a id="floatWhatsApp" target="_blank" rel="noopener" aria-label="Falar no WhatsApp">📞 Fale no WhatsApp</a>
+  </div>
+
+  <!-- Modal Carrinho -->
+  <div class="modal" id="cartModal" aria-hidden="true" role="dialog" aria-label="Carrinho de compras">
+    <div class="sheet">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+        <h3 style="margin:0">Seu carrinho</h3>
+        <button class="btn btn-light" id="closeCart">Fechar</button>
+      </div>
+      <div class="cart-list" id="cartList" style="margin-top:10px"></div>
+      <div class="cart-total">
+        <strong>Total:</strong>
+        <strong id="cartTotal">R$ 0,00</strong>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:12px;justify-content:flex-end">
+        <button class="btn btn-light" id="clearCart">Esvaziar</button>
+        <button class="btn btn-primary" id="checkout">Finalizar pelo WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    function toggleMenu() {
-      const menu = document.getElementById("nav-menu");
-      menu.classList.toggle("active");
+    // ===================== CONFIGURAÇÕES =====================
+    const WHATSAPP_NUMBER = '55XXXXXXXXXXX'; // Ex.: 55DDDNUMERO – substitua pelo seu número
+    const PAYMENT_BASE_URL = ''; // opcional: coloque aqui um link base de pagamento se tiver (ex. Mercado Pago, etc.)
+
+    // ===================== PRODUTOS (exemplos) =====================
+    const PRODUCTS = [
+      {id:'p1', name:'Boneco Meu Tom (Gato)', price:49.90, category:'Bonecas', age:'3-5', img:'https://via.placeholder.com/600x600?text=Meu+Tom', stock:12, badge:'Mais vendido'},
+      {id:'p2', name:'Ursinho de Pelúcia', price:39.90, category:'Pelúcia', age:'3-5', img:'https://via.placeholder.com/600x600?text=Ursinho', stock:8},
+      {id:'p3', name:'Carrinho Turbo', price:59.90, category:'Carrinhos', age:'6-8', img:'https://via.placeholder.com/600x600?text=Carrinho', stock:20},
+      {id:'p4', name:'Blocos Educativos 100pçs', price:79.90, category:'Educativo', age:'3-5', img:'https://via.placeholder.com/600x600?text=Blocos', stock:15, badge:'Novo'},
+      {id:'p5', name:'Quebra-cabeça 200pçs', price:44.90, category:'Educativo', age:'6-8', img:'https://via.placeholder.com/600x600?text=Puzzle', stock:10},
+      {id:'p6', name:'Boneca Luísa', price:54.90, category:'Bonecas', age:'3-5', img:'https://via.placeholder.com/600x600?text=Luisa', stock:6},
+      {id:'p7', name:'Jogo da Memória', price:29.90, category:'Educativo', age:'3-5', img:'https://via.placeholder.com/600x600?text=Memoria', stock:25},
+      {id:'p8', name:'Carrinho de Polícia', price:64.90, category:'Carrinhos', age:'6-8', img:'https://via.placeholder.com/600x600?text=Policia', stock:9}
+    ];
+
+    // ===================== STATE =====================
+    const state = {
+      query:'', category:'', age:'', minPrice:'', maxPrice:'',
+      cart: JSON.parse(localStorage.getItem('enzo_cart')||'[]')
+    };
+
+    // ===================== HELPERS =====================
+    const formatBRL = n => n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+    const encode = s => encodeURIComponent(s);
+
+    function updateWhatsAppLinks(){
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encode('Olá! Tenho interesse nos brinquedos 🤩')}`;
+      document.getElementById('topWhatsApp').href = url;
+      document.getElementById('floatWhatsApp').href = url;
     }
+
+    function renderProducts(){
+      const grid = document.getElementById('grid');
+      grid.innerHTML = '';
+      const min = state.minPrice? parseFloat(state.minPrice): -Infinity;
+      const max = state.maxPrice? parseFloat(state.maxPrice): Infinity;
+      const q = state.query.toLowerCase();
+      const items = PRODUCTS.filter(p => (
+        (!state.category || p.category === state.category) &&
+        (!state.age || p.age === state.age) &&
+        (p.price >= min && p.price <= max) &&
+        (!q || p.name.toLowerCase().includes(q))
+      ));
+
+      if(items.length === 0){
+        grid.innerHTML = `<div class="info-card" style="grid-column:1/-1;text-align:center">Nenhum produto encontrado com os filtros atuais.</div>`;
+        return;
+      }
+
+      items.forEach(p => {
+        const el = document.createElement('article');
+        el.className = 'card';
+        el.innerHTML = `
+          <div class="cover"><img src="${p.img}" alt="${p.name}"></div>
+          <div class="body">
+            <div class="row-between"><strong>${p.name}</strong>${p.badge?`<span class="tag">${p.badge}</span>`:''}</div>
+            <div class="muted">Categoria: ${p.category} • Idade: ${p.age} • Estoque: ${p.stock}</div>
+            <div class="row-between">
+              <div class="price">${formatBRL(p.price)}</div>
+              <div class="qty">
+                <button aria-label="Diminuir" data-act="dec" data-id="${p.id}">−</button>
+                <span id="qty-${p.id}">1</span>
+                <button aria-label="Aumentar" data-act="inc" data-id="${p.id}">+</button>
+              </div>
+            </div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-primary" data-act="add" data-id="${p.id}">Adicionar</button>
+              ${PAYMENT_BASE_URL?`<a class="btn btn-light" target="_blank" rel="noopener" href="${PAYMENT_BASE_URL}${p.id}">Pagar agora</a>`:''}
+            </div>
+          </div>`;
+        grid.appendChild(el);
+      });
+    }
+
+    function getQty(id){
+      const el = document.getElementById(`qty-${id}`);
+      return parseInt(el?.textContent||'1');
+    }
+
+    function setQty(id, v){
+      const el = document.getElementById(`qty-${id}`);
+      if(!el) return; const nv = Math.max(1, v); el.textContent = nv;
+    }
+
+    function addToCart(id, qty){
+      const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
+      const item = state.cart.find(x=>x.id===id);
+      if(item){ item.qty += qty; }
+      else { state.cart.push({id:p.id, name:p.name, price:p.price, qty}); }
+      localStorage.setItem('enzo_cart', JSON.stringify(state.cart));
+      updateCartCount();
+      openCart();
+    }
+
+    function updateCartCount(){
+      const c = state.cart.reduce((s,i)=>s+i.qty,0);
+      document.getElementById('cartCount').textContent = c;
+    }
+
+    function renderCart(){
+      const list = document.getElementById('cartList');
+      list.innerHTML = '';
+      if(state.cart.length===0){
+        list.innerHTML = '<div class="info-card" style="margin:10px">Seu carrinho está vazio.</div>';
+        document.getElementById('cartTotal').textContent = formatBRL(0);
+        return;
+      }
+      let total = 0;
+      state.cart.forEach(it=>{
+        total += it.price * it.qty;
+        const row = document.createElement('div');
+        row.className = 'cart-item';
+        row.innerHTML = `
+          <div style="background:#f1f5f9;border-radius:10px;height:64px"></div>
+          <div>
+            <div><strong>${it.name}</strong></div>
+            <div class="muted">${formatBRL(it.price)} • Qtd: ${it.qty}</div>
+          </div>
+          <div style="display:flex;gap:6px">
+            <button class="btn btn-light" data-act="minusCart" data-id="${it.id}">−</button>
+            <button class="btn btn-light" data-act="plusCart" data-id="${it.id}">+</button>
+            <button class="btn" style="background:#fee2e2" data-act="removeCart" data-id="${it.id}">🗑️</button>
+          </div>`;
+        list.appendChild(row);
+      });
+      document.getElementById('cartTotal').textContent = formatBRL(total);
+    }
+
+    function openCart(){document.getElementById('cartModal').classList.add('open');renderCart();}
+    function closeCart(){document.getElementById('cartModal').classList.remove('open');}
+
+    function clearCart(){ state.cart = []; localStorage.setItem('enzo_cart','[]'); updateCartCount(); renderCart(); }
+
+    function checkoutWhatsApp(){
+      if(state.cart.length===0){ alert('Seu carrinho está vazio.'); return; }
+      const lines = state.cart.map(it=>`• ${it.name} x${it.qty} — ${formatBRL(it.price*it.qty)}`);
+      const total = state.cart.reduce((s,i)=>s+i.price*i.qty,0);
+      const msg = `Olá! Quero finalizar meu pedido:%0A%0A${lines.join('%0A')}
+%0ATotal: ${encode(formatBRL(total))}%0A%0ANome:%20_____%0AEndereço:%20_____%0ABairro/Cidade:%20_____%0APagamento:%20Pix/Cartão/Dinheiro`;
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+      window.open(url,'_blank');
+    }
+
+    // ===================== EVENTOS =====================
+    document.getElementById('menuBtn').addEventListener('click', ()=>{
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+
+    document.getElementById('openCart').addEventListener('click', openCart);
+    document.getElementById('closeCart').addEventListener('click', closeCart);
+    document.getElementById('clearCart').addEventListener('click', clearCart);
+    document.getElementById('checkout').addEventListener('click', checkoutWhatsApp);
+
+    document.addEventListener('click', (e)=>{
+      const act = e.target.getAttribute('data-act');
+      const id = e.target.getAttribute('data-id');
+      if(!act) return;
+      if(act==='inc') setQty(id, getQty(id)+1);
+      if(act==='dec') setQty(id, getQty(id)-1);
+      if(act==='add') addToCart(id, getQty(id));
+      if(act==='removeCart'){
+        state.cart = state.cart.filter(x=>x.id!==id);
+        localStorage.setItem('enzo_cart', JSON.stringify(state.cart));
+        updateCartCount(); renderCart();
+      }
+      if(act==='plusCart'){
+        const it = state.cart.find(x=>x.id===id); if(it){it.qty++; localStorage.setItem('enzo_cart', JSON.stringify(state.cart)); renderCart(); updateCartCount();}
+      }
+      if(act==='minusCart'){
+        const it = state.cart.find(x=>x.id===id); if(it){it.qty=Math.max(1,it.qty-1); localStorage.setItem('enzo_cart', JSON.stringify(state.cart)); renderCart(); updateCartCount();}
+      }
+    });
+
+    // Filtros
+    document.getElementById('search').addEventListener('input', e=>{state.query = e.target.value; renderProducts();});
+    document.getElementById('category').addEventListener('change', e=>{state.category = e.target.value; renderProducts();});
+    document.getElementById('age').addEventListener('change', e=>{state.age = e.target.value; renderProducts();});
+    document.getElementById('minPrice').addEventListener('input', e=>{state.minPrice = e.target.value; renderProducts();});
+    document.getElementById('maxPrice').addEventListener('input', e=>{state.maxPrice = e.target.value; renderProducts();});
+    document.getElementById('clearFilters').addEventListener('click', ()=>{
+      state.query = state.category = state.age = state.minPrice = state.maxPrice = '';
+      document.getElementById('search').value='';
+      document.getElementById('category').value='';
+      document.getElementById('age').value='';
+      document.getElementById('minPrice').value='';
+      document.getElementById('maxPrice').value='';
+      renderProducts();
+    });
+
+    // Formulário de contato -> WhatsApp
+    document.getElementById('contactForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const data = new FormData(e.target);
+      const nome = data.get('nome');
+      const tel = data.get('telefone');
+      const msg = data.get('mensagem') || '';
+      const text = encode(`Olá! Sou ${nome}. Meu telefone é ${tel}.\n${msg}`);
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
+    });
+
+    // Init
+    document.getElementById('year').textContent = new Date().getFullYear();
+    updateWhatsAppLinks();
+    renderProducts();
+    updateCartCount();
   </script>
 </body>
 </html>
