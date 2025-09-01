@@ -1,0 +1,47 @@
+[
+  {
+    "id": "p1",
+    "nome": "Charmosa",
+    "preco": 49.9,
+    "categoria": "Bonecas",
+    "age": "3-5",
+    "img": "./images/Charmosa.jpg",
+    "quantidade": 12
+  },
+  {
+    "id": "p2",
+    "nome": "Frutinhas",
+    "preco": 69.9,
+    "categoria": "Bonecas",
+    "age": "3-5",
+    "img": "./images/Frutinhas.jpg",
+    "quantidade": 8
+  },
+  {
+    "id": "p3",
+    "nome": "LoveBorn",
+    "preco": 59.9,
+    "categoria": "Bonecas",
+    "age": "6-8",
+    "img": "./images/LoveBorn.jpg",
+    "quantidade": 10
+  },
+  {
+    "id": "p4",
+    "nome": "Lovebabybebe",
+    "preco": 55,
+    "categoria": "Bonecas",
+    "age": "3-5",
+    "img": "./images/Lovebabybebe.jpg",
+    "quantidade": 5
+  },
+  {
+    "id": "p5",
+    "nome": "Lovebabybebe2",
+    "preco": 44.9,
+    "categoria": "Bonecas",
+    "age": "6-8",
+    "img": "./images/Lovebabybebe2.jpg",
+    "quantidade": 2
+  }
+]
