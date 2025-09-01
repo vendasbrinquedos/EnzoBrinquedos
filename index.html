@@ -93,8 +93,16 @@ h2{margin-bottom:16px;color:var(--secondary);}
 <div id="whatsapp-btn">💬</div>
 
 <script>
-const API_URL="https://suaapi.com/api/produtos"; // TROQUE pelo endereço real da sua API
-const state={cart:{}};
+// Lista de produtos (exemplo local, você pode substituir por API)
+let products = [
+  {id:'p1', nome:'Charmosa', preco:49.9, categoria:'Bonecas', age:'3-5', img:'Charmosa.jpg', quantidade:12},
+  {id:'p2', nome:'Frutinhas', preco:69.9, categoria:'Bonecas', age:'3-5', img:'Frutinhas.jpg', quantidade:8},
+  {id:'p3', nome:'LoveBorn', preco:59.9, categoria:'Bonecas', age:'6-8', img:'LoveBorn.jpg', quantidade:10},
+  {id:'p4', nome:'Lovebabybebe', preco:55, categoria:'Bonecas', age:'3-5', img:'Lovebabybebe.jpg', quantidade:5},
+  {id:'p5', nome:'Lovebabybebe2', preco:44.9, categoria:'Bonecas', age:'6-8', img:'Lovebabybebe2.jpg', quantidade:2}
+];
+
+const state = { cart:{} };
 const productGrid=document.getElementById('productGrid');
 const searchInput=document.getElementById('searchInput');
 const filterCategory=document.getElementById('filterCategory');
@@ -104,64 +112,112 @@ const cartTotal=document.getElementById('cart-total');
 
 function formatBRL(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
 
-let previousStock={};
+function renderProducts(){
+  const search=searchInput.value.toLowerCase();
+  const cat=filterCategory.value;
+  const age=filterAge.value;
+  productGrid.innerHTML='';
 
-async function renderProducts(){
-  try{
-    const res=await fetch(API_URL);
-    const produtos=await res.json();
-    const search=searchInput.value.toLowerCase();
-    const cat=filterCategory.value;
-    const age=filterAge.value;
-    productGrid.innerHTML='';
+  products.filter(p=>
+    (!search||p.nome.toLowerCase().includes(search)) &&
+    (!cat||p.categoria===cat) &&
+    (!age||p.age===age)
+  ).forEach(p=>{
+    const div=document.createElement('div');
+    div.className='card';
 
-    produtos.filter(p=>
-      (!search||p.nome.toLowerCase().includes(search)) &&
-      (!cat||p.categoria===cat) &&
-      (!age||p.age===age)
-    ).forEach(p=>{
-      const div=document.createElement('div');
-      div.className='card';
+    let lowStockHTML=p.quantidade>0 && p.quantidade<=5?'<div class="low-stock">Estoque baixo!</div>':'';
+    let btnText=p.quantidade>0?'Comprar':'Esgotado';
 
-      let lowStockHTML=p.quantidade>0 && p.quantidade<=5?'<div class="low-stock">Estoque baixo!</div>':'';
-      let btnText=p.quantidade>0?'Comprar':'Esgotado';
-
-      div.innerHTML=`
+    div.innerHTML=`
       ${lowStockHTML}
       <img src="${p.img}" alt="${p.nome}">
       <div class="card-body">
-      <h3>${p.nome}</h3>
-      <div class="categoria">${p.categoria}</div>
-      <div class="idade">${p.age} anos</div>
-      <div class="price">${formatBRL(p.preco)}</div>
-      <p class="estoque" id="estoque-${p.id}">Estoque: ${p.quantidade}</p>
-      <button class="btn btn-primary" id="btn-${p.id}" ${p.quantidade>0?'':'disabled'}>${btnText}</button>
+        <h3>${p.nome}</h3>
+        <div class="categoria">${p.categoria}</div>
+        <div class="idade">${p.age} anos</div>
+        <div class="price">${formatBRL(p.preco)}</div>
+        <p class="estoque" id="estoque-${p.id}">Estoque: ${p.quantidade}</p>
+        <button class="btn btn-primary" id="btn-${p.id}" ${p.quantidade>0?'':'disabled'}>${btnText}</button>
       </div>`;
 
-      productGrid.appendChild(div);
+    productGrid.appendChild(div);
 
-      const btn=div.querySelector(`#btn-${p.id}`);
-      btn.addEventListener('click',()=>addToCart(p.id,p));
-
-      // Alertas de mudança de estoque
-      if(previousStock[p.id]!==undefined && previousStock[p.id]===0 && p.quantidade>0){
-        alert(`O produto "${p.nome}" voltou ao estoque!`);
-      }
-      previousStock[p.id]=p.quantidade;
-    });
-
-  }catch(err){console.error("Erro ao buscar produtos:",err);}
+    const btn=div.querySelector(`#btn-${p.id}`);
+    btn.addEventListener('click',()=>addToCart(p.id));
+  });
 }
 
-function addToCart(id,p){
-  if(!state.cart[id]) state.cart[id]={...p,qty:1};
-  else{ if(state.cart[id].qty<p.quantidade) state.cart[id].qty++; else alert("Quantidade máxima em estoque atingida!");}
+function addToCart(id){
+  const p = products.find(x=>x.id===id);
+  if(!p || p.quantidade<=0){ alert("Produto esgotado!"); return; }
+
+  if(!state.cart[id]) state.cart[id] = {...p, qty:1};
+  else if(state.cart[id].qty < p.quantidade) state.cart[id].qty++;
+  else { alert("Quantidade máxima em estoque atingida!"); return; }
+
+  p.quantidade--;
+  updateProductCard(id);
   renderCart();
 }
-function changeQty(id,delta){if(state.cart[id]){state.cart[id].qty+=delta;if(state.cart[id].qty<=0) delete state.cart[id];} renderCart();}
-function removeFromCart(id){delete state.cart[id]; renderCart();}
-function renderCart(){cartItems.innerHTML='';let total=0;for(let id in state.cart){const p=state.cart[id];total+=p.preco*p.qty;const div=document.createElement('div');div.className='cart-item';div.innerHTML=`<div><strong>${p.nome}</strong><br>${formatBRL(p.preco)} x ${p.qty}</div><div><button onclick="changeQty('${id}',-1)">-</button><span>${p.qty}</span><button onclick="changeQty('${id}',1)">+</button><button onclick="removeFromCart('${id}')">🗑️</button></div>`;cartItems.appendChild(div);}cartTotal.textContent=`Total: ${formatBRL(total)}`;}
 
+function updateProductCard(id){
+  const p = products.find(x=>x.id===id);
+  const estoqueEl = document.getElementById(`estoque-${id}`);
+  const btn = document.getElementById(`btn-${id}`);
+  if(estoqueEl) estoqueEl.textContent = `Estoque: ${p.quantidade}`;
+  if(btn){
+    btn.disabled = p.quantidade <=0;
+    btn.textContent = p.quantidade>0 ? 'Comprar' : 'Esgotado';
+  }
+}
+
+function changeQty(id,delta){
+  const p = products.find(x=>x.id===id);
+  if(!state.cart[id]) return;
+
+  if(delta>0 && p.quantidade<=0){ alert("Sem estoque disponível!"); return; }
+
+  state.cart[id].qty += delta;
+  p.quantidade -= delta;
+
+  if(state.cart[id].qty <=0) delete state.cart[id];
+
+  updateProductCard(id);
+  renderCart();
+}
+
+function removeFromCart(id){
+  const p = products.find(x=>x.id===id);
+  if(state.cart[id]){
+    p.quantidade += state.cart[id].qty;
+    delete state.cart[id];
+    updateProductCard(id);
+    renderCart();
+  }
+}
+
+function renderCart(){
+  cartItems.innerHTML='';
+  let total=0;
+  for(let id in state.cart){
+    const p=state.cart[id];
+    total += p.preco * p.qty;
+    const div=document.createElement('div');
+    div.className='cart-item';
+    div.innerHTML=`<div><strong>${p.nome}</strong><br>${formatBRL(p.preco)} x ${p.qty}</div>
+      <div>
+        <button onclick="changeQty('${id}',-1)">-</button>
+        <span>${p.qty}</span>
+        <button onclick="changeQty('${id}',1)">+</button>
+        <button onclick="removeFromCart('${id}')">🗑️</button>
+      </div>`;
+    cartItems.appendChild(div);
+  }
+  cartTotal.textContent=`Total: ${formatBRL(total)}`;
+}
+
+// Carrinho
 const cartOverlay=document.getElementById('cart-overlay');
 const cartEl=document.getElementById('cart');
 document.getElementById('openCart').addEventListener('click',()=>{cartEl.classList.add('open');cartOverlay.classList.add('open');});
@@ -169,22 +225,29 @@ document.getElementById('closeCart').addEventListener('click',()=>closeCart());
 cartOverlay.addEventListener('click',()=>closeCart());
 function closeCart(){cartEl.classList.remove('open');cartOverlay.classList.remove('open');}
 
+// Checkout WhatsApp
 document.getElementById('checkoutBtn').addEventListener('click',()=>{
   let msg='Olá, gostaria de finalizar a compra:%0A';
   let total=0;
-  for(let id in state.cart){const p=state.cart[id];total+=p.preco*p.qty;msg+=`- ${p.nome} x${p.qty} = ${formatBRL(p.preco*p.qty)}%0A`;}
-  msg+=`Total: ${formatBRL(total)}`;
+  for(let id in state.cart){
+    const p=state.cart[id];
+    total+=p.preco*p.qty;
+    msg += `- ${p.nome} x${p.qty} = ${formatBRL(p.preco*p.qty)}%0A`;
+  }
+  msg += `Total: ${formatBRL(total)}`;
   window.open(`https://wa.me/5500000000000?text=${msg}`,'_blank');
 });
 
+// WhatsApp flutuante
 document.getElementById('whatsapp-btn').addEventListener('click',()=>window.open('https://wa.me/5500000000000','_blank'));
+
+// Filtros
 searchInput.addEventListener('input',renderProducts);
 filterCategory.addEventListener('change',renderProducts);
 filterAge.addEventListener('change',renderProducts);
 
-// Atualização automática a cada 30s
+// Inicial
 renderProducts();
-setInterval(renderProducts,30000);
 </script>
 </body>
 </html>
