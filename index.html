@@ -93,13 +93,12 @@ h2{margin-bottom:16px;color:var(--secondary);}
 <div id="whatsapp-btn">💬</div>
 
 <script>
-// Lista de produtos (exemplo local, você pode substituir por API)
 let products = [
-  {id:'p1', nome:'Charmosa', preco:49.9, categoria:'Bonecas', age:'3-5', img:'Charmosa.jpg', quantidade:12},
-  {id:'p2', nome:'Frutinhas', preco:69.9, categoria:'Bonecas', age:'3-5', img:'Frutinhas.jpg', quantidade:8},
-  {id:'p3', nome:'LoveBorn', preco:59.9, categoria:'Bonecas', age:'6-8', img:'LoveBorn.jpg', quantidade:10},
-  {id:'p4', nome:'Lovebabybebe', preco:55, categoria:'Bonecas', age:'3-5', img:'Lovebabybebe.jpg', quantidade:5},
-  {id:'p5', nome:'Lovebabybebe2', preco:44.9, categoria:'Bonecas', age:'6-8', img:'Lovebabybebe2.jpg', quantidade:2}
+  {id:'p1', nome:'Charmosa', preco:49.9, categoria:'Bonecas', age:'3-5', img:'./Charmosa.jpg', quantidade:12},
+  {id:'p2', nome:'Frutinhas', preco:69.9, categoria:'Bonecas', age:'3-5', img:'./Frutinhas.jpg', quantidade:8},
+  {id:'p3', nome:'LoveBorn', preco:59.9, categoria:'Bonecas', age:'6-8', img:'./LoveBorn.jpg', quantidade:10},
+  {id:'p4', nome:'Lovebabybebe', preco:55, categoria:'Bonecas', age:'3-5', img:'./Lovebabybebe.jpg', quantidade:5},
+  {id:'p5', nome:'Lovebabybebe2', preco:44.9, categoria:'Bonecas', age:'6-8', img:'./Lovebabybebe2.jpg', quantidade:2}
 ];
 
 const state = { cart:{} };
@@ -181,20 +180,17 @@ function changeQty(id,delta){
   state.cart[id].qty += delta;
   p.quantidade -= delta;
 
-  if(state.cart[id].qty <=0) delete state.cart[id];
-
+  if(state.cart[id].qty <=0){ delete state.cart[id]; p.quantidade += 0; }
   updateProductCard(id);
   renderCart();
 }
 
 function removeFromCart(id){
   const p = products.find(x=>x.id===id);
-  if(state.cart[id]){
-    p.quantidade += state.cart[id].qty;
-    delete state.cart[id];
-    updateProductCard(id);
-    renderCart();
-  }
+  if(state.cart[id]) p.quantidade += state.cart[id].qty;
+  delete state.cart[id];
+  updateProductCard(id);
+  renderCart();
 }
 
 function renderCart(){
@@ -202,9 +198,8 @@ function renderCart(){
   let total=0;
   for(let id in state.cart){
     const p=state.cart[id];
-    total += p.preco * p.qty;
-    const div=document.createElement('div');
-    div.className='cart-item';
+    total+=p.preco*p.qty;
+    const div=document.createElement('div');div.className='cart-item';
     div.innerHTML=`<div><strong>${p.nome}</strong><br>${formatBRL(p.preco)} x ${p.qty}</div>
       <div>
         <button onclick="changeQty('${id}',-1)">-</button>
@@ -232,21 +227,17 @@ document.getElementById('checkoutBtn').addEventListener('click',()=>{
   for(let id in state.cart){
     const p=state.cart[id];
     total+=p.preco*p.qty;
-    msg += `- ${p.nome} x${p.qty} = ${formatBRL(p.preco*p.qty)}%0A`;
+    msg+=`- ${p.nome} x${p.qty} = ${formatBRL(p.preco*p.qty)}%0A`;
   }
-  msg += `Total: ${formatBRL(total)}`;
+  msg+=`Total: ${formatBRL(total)}`;
   window.open(`https://wa.me/5500000000000?text=${msg}`,'_blank');
 });
 
-// WhatsApp flutuante
 document.getElementById('whatsapp-btn').addEventListener('click',()=>window.open('https://wa.me/5500000000000','_blank'));
-
-// Filtros
 searchInput.addEventListener('input',renderProducts);
 filterCategory.addEventListener('change',renderProducts);
 filterAge.addEventListener('change',renderProducts);
 
-// Inicial
 renderProducts();
 </script>
 </body>
